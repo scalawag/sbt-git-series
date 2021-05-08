@@ -39,7 +39,7 @@ object GitSeriesPlugin extends AutoPlugin {
   override def projectSettings = Seq[Def.Setting[_]](
     useJGit,
     jenkinsMode := false,
-    version := {
+    ThisBuild / version := {
       val s = Keys.sLog.value
 
       val currentTags = gitCurrentTags.value
