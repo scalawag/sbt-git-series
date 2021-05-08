@@ -30,10 +30,11 @@ ThisBuild / versionScheme := Some("semver-spec")
 Test / publishArtifact := false
 
 publishTo := {
+  val nexus = "https://oss.sonatype.org/"
   if (version.value.trim.endsWith("SNAPSHOT"))
-    Some(Resolver.sonatypeRepo("snapshots"))
+    Some("snapshots" at nexus + "content/repositories/snapshots")
   else
-    Some(Resolver.sonatypeRepo("releases"))
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
 pomIncludeRepository := { _ => false }
