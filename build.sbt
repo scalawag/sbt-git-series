@@ -37,10 +37,13 @@ publishTo := {
 
 pomIncludeRepository := { _ => false }
 
-homepage := Some(url("http://github.org/timber"))
+homepage := Some(url("https://github.com/scalawag/sbt-git-series"))
 startYear := Some(2018)
 licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
-scmInfo := Some(ScmInfo(url("http://github.com/scalawag/timber"), "scm:git:git://github.com/scalawag/timber.git"))
+scmInfo := Some(ScmInfo(
+  url("https://github.com/scalawag/sbt-git-series"),
+  "scm:git:git://github.com/scalawag/sbt-git-series.git"
+))
 developers := List(
   Developer("justinp", "Justin Patterson", "justin@scalawag.org", url("https://github.com/justinp"))
 )
