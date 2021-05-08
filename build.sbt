@@ -51,11 +51,11 @@ useGpg := false
 usePgpKeyHex("439444E02ED9335F91C538455283F6A358FB8629")
 pgpPublicRing := baseDirectory.value / "project" / "public.gpg"
 pgpSecretRing := baseDirectory.value / "project" / "private.gpg"
-pgpPassphrase := sys.env.get("PGP_PASSPHRASE").map(_.toArray)
+pgpPassphrase := sys.env.get("PGP_PASSPHRASE").map(_.toArray).orElse(throw new Exception("missing $PGP_PASSPHRASE"))
 credentials += Credentials(
   "Sonatype Nexus Repository Manager",
   "oss.sonatype.org",
-  sys.env.getOrElse("SONATYPE_USER", ""),
-  sys.env.getOrElse("SONATYPE_PASSWORD", "")
+  sys.env.getOrElse("SONATYPE_USER", throw new Exception("missing $SONATYPE_USER")),
+  sys.env.getOrElse("SONATYPE_PASSWORD", throw new Exception("missing $SONATYPE_PASSWORD"))
 )
 
