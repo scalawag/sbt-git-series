@@ -23,20 +23,20 @@ scalacOptions ++= Seq("-feature", "-deprecation")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
 
+ThisBuild / versionScheme := Some("semver-spec")
+
 // Publishing configuration
 
 Test / publishArtifact := false
 
 publishTo := {
-  val nexus = "https://oss.sonatype.org/"
   if (version.value.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
+    Some(Resolver.sonatypeRepo("snapshots"))
   else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    Some(Resolver.sonatypeRepo("releases"))
 }
 
 pomIncludeRepository := { _ => false }
-
 homepage := Some(url("https://github.com/scalawag/sbt-git-series"))
 startYear := Some(2018)
 licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
@@ -47,5 +47,15 @@ scmInfo := Some(ScmInfo(
 developers := List(
   Developer("justinp", "Justin Patterson", "justin@scalawag.org", url("https://github.com/justinp"))
 )
-credentials += Credentials("GnuPG Key ID", "gpg", "439444E02ED9335F91C538455283F6A358FB8629", "ignored")
+useGpg := false
+usePgpKeyHex("439444E02ED9335F91C538455283F6A358FB8629")
+pgpPublicRing := baseDirectory.value / "project" / "public.gpg"
+pgpSecretRing := baseDirectory.value / "project" / "private.gpg"
+pgpPassphrase := sys.env.get("PGP_PASSPHRASE").map(_.toArray)
+credentials += Credentials(
+  "Sonatype Nexus Repository Manager",
+  "oss.sonatype.org",
+  sys.env.getOrElse("SONATYPE_USER", ""),
+  sys.env.getOrElse("SONATYPE_PASSWORD", "")
+)
 

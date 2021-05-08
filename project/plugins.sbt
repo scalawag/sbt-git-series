@@ -16,3 +16,5 @@
 Compile / unmanagedSourceDirectories += baseDirectory.value.getParentFile / "src" / "main" / "scala"
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
+
+addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.1.2")
