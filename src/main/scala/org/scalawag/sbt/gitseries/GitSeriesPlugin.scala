@@ -27,6 +27,7 @@ object GitSeriesPlugin extends AutoPlugin {
 
   object autoImport {
     val jenkinsMode = SettingKey[Boolean]("modify version derivation to account for Jenkins' git usage")
+    val travisMode = SettingKey[Boolean]("modify version derivation to account for Travis CI's git usage")
   }
 
   private val seriesBranchRegex = "series/(\\d+\\.\\d+)".r
@@ -45,12 +46,16 @@ object GitSeriesPlugin extends AutoPlugin {
       val currentTags = gitCurrentTags.value
       val currentBranch = gitCurrentBranch.value
 
-      // Jenkins checks out its tags and creates a branch with the same name, so we need to ignore any branches that
-      // have a coexistent similarly-named tag.
-
       val eligibleBranches =
         if ( jenkinsMode.value )
+          // Jenkins checks out its tags and creates a branch with the same name, so we need to ignore any branches that
+          // have a coexistent similarly-named tag.
           Iterable(currentBranch).filterNot(currentTags.contains)
+        else if ( travisMode.value && sys.env.get("TRAVIS_BRANCH") != sys.env.get("TRAVIS_TAG") )
+          // Travis always checks out a detached head for branches, but we can tell what it was trying to do by looking
+          // at $TRAVIS_BRANCH and $TRAVIS_TAG. If they're different, we can use that branch name as if it were checked
+          // out because Travis thinks it's building a branch.
+          sys.env.get("TRAVIS_BRANCH").toIterable
         else
           Iterable(currentBranch)
 
