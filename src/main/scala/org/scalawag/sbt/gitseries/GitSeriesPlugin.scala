@@ -26,8 +26,8 @@ object GitSeriesPlugin extends AutoPlugin {
   override def trigger = allRequirements
 
   object autoImport {
-    val jenkinsMode = SettingKey[Boolean]("modify version derivation to account for Jenkins' git usage")
-    val travisMode = SettingKey[Boolean]("modify version derivation to account for Travis CI's git usage")
+    val jenkinsMode = SettingKey[Boolean]("jenkinsMode", "modify version derivation to account for Jenkins' git usage")
+    val travisMode = SettingKey[Boolean]("travisMode", "modify version derivation to account for Travis CI's git usage")
   }
 
   private val seriesBranchRegex = "series/(\\d+\\.\\d+)".r
@@ -40,6 +40,7 @@ object GitSeriesPlugin extends AutoPlugin {
   override def projectSettings = Seq[Def.Setting[_]](
     useJGit,
     jenkinsMode := false,
+    travisMode := false,
     ThisBuild / version := {
       val s = Keys.sLog.value
 
