@@ -5,7 +5,7 @@ jobs:
   - stage: test
     script: sbt ++$TRAVIS_SCALA_VERSION test publishSigned
   - stage: release
-    script: sbt ++$TRAVIS_SCALA_VERSION sonatypeBundleRelease
+    script: sbt ++$TRAVIS_SCALA_VERSION sonatypeRelease
 
 stages:
  - test

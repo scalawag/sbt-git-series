@@ -19,7 +19,7 @@ object ScalawagPublishing extends AutoPlugin {
     Test / publishArtifact := false,
 
     sonatypeProfileName := "org.scalawag",
-    publishTo := sonatypePublishToBundle.value,
+    publishTo := sonatypePublishTo.value,
 
     pomIncludeRepository := { _ => false },
     homepage := Some(url(s"https://github.com/scalawag/${name.value}")),
