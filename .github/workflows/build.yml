@@ -21,3 +21,4 @@ jobs:
         run: sbt publishSigned
       - name: Release
         if: startsWith(github.ref, 'refs/tags/')
+        run: sbt sonatypeRelease
