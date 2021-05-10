@@ -6,6 +6,7 @@ jobs:
     script: sbt ++$TRAVIS_SCALA_VERSION test publishSigned
   - stage: release
     if: tag != ""
+    script: sbt ++$TRAVIS_SCALA_VERSION sonatypeBundleRelease
 
 scala:
  - 2.12.13
